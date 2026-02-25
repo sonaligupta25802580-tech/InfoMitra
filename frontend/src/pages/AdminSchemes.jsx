@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import axios from 'axios'
 import LanguageToggle from '../components/LanguageToggle'
+import BackButton from '../components/BackButton'
 import { API_URL } from '../config'
 
 const AdminSchemes = () => {
@@ -30,7 +31,7 @@ const AdminSchemes = () => {
   }
 
   const handleDelete = async (schemeId) => {
-    if (!confirm('Are you sure you want to delete this scheme?')) {
+    if (!confirm(t('deleteSchemeConfirm'))) {
       return
     }
 
@@ -39,7 +40,7 @@ const AdminSchemes = () => {
       setSchemes(schemes.filter(scheme => scheme._id !== schemeId))
     } catch (error) {
       console.error('Failed to delete scheme', error)
-      alert('Failed to delete scheme')
+      alert(t('failedDeleteScheme'))
     }
   }
 
@@ -53,7 +54,7 @@ const AdminSchemes = () => {
               alt="InfoMitra Logo"
               className="w-12 h-12 rounded-full object-cover shadow-md border-2 border-orange-400"
             />
-            <h1 className="text-2xl font-bold text-gray-800">InfoMitra Admin Panel</h1>
+            <h1 className="text-2xl font-bold text-gray-800">{t('adminPanelTitle')}</h1>
           </div>
           <div className="flex items-center gap-4">
             <LanguageToggle />
@@ -61,22 +62,23 @@ const AdminSchemes = () => {
               onClick={() => navigate('/admin/schemes/create')}
               className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition border border-green-700"
             >
-              + Create Scheme
+              {t('createScheme')}
             </button>
             <button
               onClick={() => navigate('/admin')}
               className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition border border-blue-700"
             >
-              Back to Admin
+              {t('backToAdmin')}
             </button>
           </div>
         </div>
       </nav>
+      <BackButton />
 
       <div className="max-w-7xl mx-auto p-8">
         <div className="bg-white border-l-4 border-orange-500 p-6 mb-6 shadow">
-          <h2 className="text-3xl font-bold text-gray-800">Scheme Management</h2>
-          <p className="text-gray-600 mt-2">Create, edit, and manage government schemes</p>
+          <h2 className="text-3xl font-bold text-gray-800">{t('schemeManagement')}</h2>
+          <p className="text-gray-600 mt-2">{t('createEditManageSchemes')}</p>
         </div>
 
         {loading ? (
@@ -101,13 +103,13 @@ const AdminSchemes = () => {
                     onClick={() => navigate(`/admin/schemes/edit/${scheme._id}`)}
                     className="flex-1 bg-blue-600 text-white px-3 py-2 rounded hover:bg-blue-700 transition border border-blue-700"
                   >
-                    Edit
+                    {t('edit')}
                   </button>
                   <button
                     onClick={() => handleDelete(scheme._id)}
                     className="flex-1 bg-red-600 text-white px-3 py-2 rounded hover:bg-red-700 transition border border-red-700"
                   >
-                    Delete
+                    {t('delete')}
                   </button>
                 </div>
               </div>
@@ -117,12 +119,12 @@ const AdminSchemes = () => {
 
         {!loading && schemes.length === 0 && (
           <div className="text-center py-12 bg-white rounded shadow border border-gray-300">
-            <p className="text-xl mb-4 text-gray-800">No schemes found</p>
+            <p className="text-xl mb-4 text-gray-800">{t('noSchemes')}</p>
             <button
               onClick={() => navigate('/admin/schemes/create')}
               className="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700 transition border border-green-700"
             >
-              Create First Scheme
+              {t('createFirstScheme')}
             </button>
           </div>
         )}

@@ -74,14 +74,14 @@ const Dashboard = () => {
                   onClick={() => navigate('/admin')}
                   className="bg-yellow-500 text-gray-900 px-3 py-2 rounded hover:bg-yellow-600 transition font-semibold border-2 border-yellow-600 text-sm"
                 >
-                  Admin Panel
+                  {t('adminPanel')}
                 </button>
               )}
               <button
                 onClick={() => navigate('/edit-profile')}
                 className="bg-blue-600 text-white px-3 py-2 rounded hover:bg-blue-700 transition border-2 border-blue-700 text-sm"
               >
-                Edit Profile
+                {t('editProfile')}
               </button>
               <button
                 onClick={handleLogout}
@@ -114,14 +114,14 @@ const Dashboard = () => {
                     onClick={() => navigate('/admin')}
                     className="bg-yellow-500 text-gray-900 px-4 py-2 rounded hover:bg-yellow-600 transition font-semibold border-2 border-yellow-600 w-full text-left"
                   >
-                    Admin Panel
+                    {t('adminPanel')}
                   </button>
                 )}
                 <button
                   onClick={() => navigate('/edit-profile')}
                   className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition border-2 border-blue-700 w-full text-left"
                 >
-                  Edit Profile
+                  {t('editProfile')}
                 </button>
                 <button
                   onClick={handleLogout}
@@ -152,30 +152,30 @@ const Dashboard = () => {
             onClick={() => navigate('/schemes/eligible')}
             className="bg-white border-2 border-green-500 text-gray-800 p-6 sm:p-8 rounded shadow-md hover:shadow-lg transition"
           >
-            <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">✓</div>
+            <div className="flex items-center justify-center"><img src="/eligible.png" className='w-32'/></div>
             <h3 className="text-xl sm:text-2xl font-bold mb-2 text-green-600">{t('exploreEligible')}</h3>
-            <p className="text-xs sm:text-sm text-gray-600">View schemes you qualify for</p>
+            <p className="text-xs sm:text-sm text-gray-600">{t('viewEligibleDesc')}</p>
           </button>
 
           <button
             onClick={() => navigate('/schemes/all')}
             className="bg-white border-2 border-blue-500 text-gray-800 p-6 sm:p-8 rounded shadow-md hover:shadow-lg transition"
           >
-            <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">📋</div>
+            <div className="flex items-center justify-center"><img src="/cloud.png" className='w-32'/></div>
             <h3 className="text-xl sm:text-2xl font-bold mb-2 text-blue-600">{t('exploreAll')}</h3>
-            <p className="text-xs sm:text-sm text-gray-600">Browse all available schemes</p>
+            <p className="text-xs sm:text-sm text-gray-600">{t('viewAllDesc')}</p>
           </button>
         </div>
 
         <div className="bg-white rounded shadow-lg border-2 border-gray-300 p-4 sm:p-6 md:p-8">
           <div className="border-l-4 border-blue-500 pl-3 sm:pl-4 mb-4 sm:mb-6">
-            <h3 className="text-xl sm:text-2xl font-bold text-gray-800">Recently Added Schemes</h3>
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-800">{t('recentSchemes')}</h3>
           </div>
 
           {loading ? (
-            <div className="text-center text-gray-600 py-6 sm:py-8 text-sm sm:text-base">Loading schemes...</div>
+          <div className="text-center text-gray-600 py-6 sm:py-8 text-sm sm:text-base">{t('loadingSchemes')}</div>
           ) : recentSchemes.length === 0 ? (
-            <div className="text-center text-gray-600 py-6 sm:py-8 text-sm sm:text-base">No schemes available</div>
+            <div className="text-center text-gray-600 py-6 sm:py-8 text-sm sm:text-base">{t('noSchemesAvailable')}</div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
               {recentSchemes.map((scheme) => (

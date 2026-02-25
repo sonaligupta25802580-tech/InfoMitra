@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { API_URL } from '../config'
 
 const MarqueeBanner = () => {
-  const { i18n } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [marqueeData, setMarqueeData] = useState(null)
   const [loading, setLoading] = useState(true)
 
@@ -67,8 +67,8 @@ const MarqueeBanner = () => {
       parts.push(
         <span key="new-label" className="marquee-item">
           <span className="inline-flex items-center gap-2">
-            <span className="bg-yellow-400 text-gray-900 text-xs font-black px-2 py-0.5 rounded-sm tracking-wider uppercase">NEW</span>
-            <span className="font-semibold">Latest Schemes:</span>
+            <span className="bg-yellow-400 text-gray-900 text-xs font-black px-2 py-0.5 rounded-sm tracking-wider uppercase">{t('newBadge')}</span>
+            <span className="font-semibold">{t('latestSchemesLabel')}</span>
           </span>
         </span>
       )

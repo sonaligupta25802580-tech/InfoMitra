@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const OfflineIndicator = () => {
+  const { t } = useTranslation()
   const [isOnline, setIsOnline] = useState(navigator.onLine)
   const [showOffline, setShowOffline] = useState(false)
   const [showBackOnline, setShowBackOnline] = useState(false)
@@ -59,7 +61,7 @@ const OfflineIndicator = () => {
               />
             </svg>
             <span className="font-medium text-sm">
-              You're offline. Some features may be limited.
+              {t('offlineMessage')}
             </span>
           </div>
         </div>
@@ -83,7 +85,7 @@ const OfflineIndicator = () => {
               />
             </svg>
             <span className="font-medium text-sm">
-              Back online!
+              {t('backOnline')}
             </span>
           </div>
         </div>

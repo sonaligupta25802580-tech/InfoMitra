@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const PWAInstallPrompt = () => {
+  const { t } = useTranslation()
   const [deferredPrompt, setDeferredPrompt] = useState(null)
   const [showInstall, setShowInstall] = useState(false)
   const [isIOS, setIsIOS] = useState(false)
@@ -124,21 +126,21 @@ const PWAInstallPrompt = () => {
           </div>
           <div className="flex-1">
             <h3 className="font-bold text-gray-900 text-lg mb-1">
-              Install InfoMitra
+              {t('installInfoMitra')}
             </h3>
             
             {isIOS ? (
               <div className="text-sm text-gray-600 mb-3">
-                <p className="mb-2">Install this app on your iPhone:</p>
+                <p className="mb-2">{t('installOnIphone')}</p>
                 <ol className="list-decimal list-inside space-y-1 text-xs">
-                  <li>Tap the Share button <span className="inline-block">📤</span></li>
-                  <li>Scroll down and tap "Add to Home Screen"</li>
-                  <li>Tap "Add" in the top right corner</li>
+                  <li>{t('iosStep1')} <span className="inline-block">📤</span></li>
+                  <li>{t('iosStep2')}</li>
+                  <li>{t('iosStep3')}</li>
                 </ol>
               </div>
             ) : (
               <p className="text-sm text-gray-600 mb-3">
-                Install InfoMitra for quick access and offline support. Get personalized scheme recommendations anytime!
+                {t('installDesc')}
               </p>
             )}
             
@@ -148,14 +150,14 @@ const PWAInstallPrompt = () => {
                   onClick={handleInstallClick}
                   className="flex-1 bg-orange-500 text-white px-4 py-2 rounded-md font-medium hover:bg-orange-600 transition-colors duration-200 shadow-sm"
                 >
-                  Install App
+                  {t('installApp')}
                 </button>
               )}
               <button
                 onClick={handleDismiss}
                 className="px-4 py-2 rounded-md font-medium text-gray-600 hover:bg-gray-100 transition-colors duration-200"
               >
-                {isIOS ? 'Got it' : 'Not now'}
+                {isIOS ? t('gotIt') : t('notNow')}
               </button>
             </div>
           </div>

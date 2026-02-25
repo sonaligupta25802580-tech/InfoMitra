@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import axios from 'axios'
 import LanguageToggle from '../components/LanguageToggle'
+import BackButton from '../components/BackButton'
 import { API_URL } from '../config'
 
 const AdminUsers = () => {
@@ -30,7 +31,7 @@ const AdminUsers = () => {
   }
 
   const handleDelete = async (userId) => {
-    if (!confirm('Are you sure you want to delete this user?')) {
+    if (!confirm(t('deleteUserConfirm'))) {
       return
     }
 
@@ -39,7 +40,7 @@ const AdminUsers = () => {
       setUsers(users.filter(user => user._id !== userId))
     } catch (error) {
       console.error('Failed to delete user', error)
-      alert('Failed to delete user')
+      alert(t('failedDeleteUser'))
     }
   }
 
@@ -53,7 +54,7 @@ const AdminUsers = () => {
               alt="InfoMitra Logo"
               className="w-12 h-12 rounded-full object-cover shadow-md border-2 border-orange-400"
             />
-            <h1 className="text-2xl font-bold text-gray-800">InfoMitra Admin Panel</h1>
+            <h1 className="text-2xl font-bold text-gray-800">{t('adminPanelTitle')}</h1>
           </div>
           <div className="flex items-center gap-4">
             <LanguageToggle />
@@ -61,16 +62,17 @@ const AdminUsers = () => {
               onClick={() => navigate('/admin')}
               className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition border border-blue-700"
             >
-              Back to Admin
+              {t('backToAdmin')}
             </button>
           </div>
         </div>
       </nav>
+      <BackButton />
 
       <div className="max-w-7xl mx-auto p-8">
         <div className="bg-white border-l-4 border-blue-500 p-6 mb-6 shadow">
-          <h2 className="text-3xl font-bold text-gray-800">User Management</h2>
-          <p className="text-gray-600 mt-2">View and manage registered users</p>
+          <h2 className="text-3xl font-bold text-gray-800">{t('userManagement')}</h2>
+          <p className="text-gray-600 mt-2">{t('viewManageRegisteredUsers')}</p>
         </div>
 
         {loading ? (
@@ -82,22 +84,22 @@ const AdminUsers = () => {
                 <thead className="bg-blue-600 text-white">
                   <tr>
                     <th className="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">
-                      Name
+                      {t('name')}
                     </th>
                     <th className="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">
-                      Phone
+                      {t('phone')}
                     </th>
                     <th className="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">
-                      Email
+                      {t('email')}
                     </th>
                     <th className="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">
-                      Category
+                      {t('category')}
                     </th>
                     <th className="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">
-                      State
+                      {t('state')}
                     </th>
                     <th className="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">
-                      Actions
+                      {t('actions')}
                     </th>
                   </tr>
                 </thead>
@@ -124,7 +126,7 @@ const AdminUsers = () => {
                           onClick={() => handleDelete(user._id)}
                           className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition border border-red-700"
                         >
-                          Delete
+                          {t('delete')}
                         </button>
                       </td>
                     </tr>
@@ -133,7 +135,7 @@ const AdminUsers = () => {
               </table>
             </div>
             {users.length === 0 && (
-              <div className="text-center py-8 text-gray-600">No users found</div>
+              <div className="text-center py-8 text-gray-600">{t('noUsersFound')}</div>
             )}
           </div>
         )}

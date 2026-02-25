@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import axios from 'axios'
 import LanguageToggle from '../components/LanguageToggle'
+import BackButton from '../components/BackButton'
 import { API_URL } from '../config'
 
 const SchemeList = () => {
@@ -59,6 +60,7 @@ const SchemeList = () => {
           </div>
         </div>
       </nav>
+      <BackButton />
 
       <div className="max-w-7xl mx-auto p-4 sm:p-6 md:p-8">
         <div className="border-l-4 border-orange-500 pl-3 sm:pl-4 mb-6 sm:mb-8">

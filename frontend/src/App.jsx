@@ -29,6 +29,20 @@ const ProtectedRoute = ({ children }) => {
   return token ? children : <Navigate to="/login" />
 }
 
+const OnboardingProtectedRoute = ({ children }) => {
+  const { token, loading, isOnboarded } = useContext(AuthContext)
+  
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>
+  }
+  
+  if (!token) {
+    return <Navigate to="/login" />
+  }
+  
+  return isOnboarded ? children : <Navigate to="/onboarding" />
+}
+
 const AppRoutes = () => {
   return (
     <Routes>
@@ -46,81 +60,81 @@ const AppRoutes = () => {
       <Route
         path="/dashboard"
         element={
-          <ProtectedRoute>
+          <OnboardingProtectedRoute>
             <Dashboard />
-          </ProtectedRoute>
+          </OnboardingProtectedRoute>
         }
       />
       <Route
         path="/edit-profile"
         element={
-          <ProtectedRoute>
+          <OnboardingProtectedRoute>
             <EditProfile />
-          </ProtectedRoute>
+          </OnboardingProtectedRoute>
         }
       />
       <Route
         path="/schemes/:type"
         element={
-          <ProtectedRoute>
+          <OnboardingProtectedRoute>
             <SchemeList />
-          </ProtectedRoute>
+          </OnboardingProtectedRoute>
         }
       />
       <Route
         path="/scheme/:id"
         element={
-          <ProtectedRoute>
+          <OnboardingProtectedRoute>
             <SchemeDetail />
-          </ProtectedRoute>
+          </OnboardingProtectedRoute>
         }
       />
       <Route
         path="/admin"
         element={
-          <ProtectedRoute>
+          <OnboardingProtectedRoute>
             <AdminDashboard />
-          </ProtectedRoute>
+          </OnboardingProtectedRoute>
         }
       />
       <Route
         path="/admin/users"
         element={
-          <ProtectedRoute>
+          <OnboardingProtectedRoute>
             <AdminUsers />
-          </ProtectedRoute>
+          </OnboardingProtectedRoute>
         }
       />
       <Route
         path="/admin/schemes"
         element={
-          <ProtectedRoute>
+          <OnboardingProtectedRoute>
             <AdminSchemes />
-          </ProtectedRoute>
+          </OnboardingProtectedRoute>
         }
       />
       <Route
         path="/admin/schemes/create"
         element={
-          <ProtectedRoute>
+          <OnboardingProtectedRoute>
             <AdminSchemeForm />
-          </ProtectedRoute>
+          </OnboardingProtectedRoute>
         }
       />
       <Route
         path="/admin/schemes/edit/:id"
         element={
-          <ProtectedRoute>
+          <OnboardingProtectedRoute>
             <AdminSchemeForm />
-          </ProtectedRoute>
+          </OnboardingProtectedRoute>
         }
       />
       <Route
         path="/admin/marquee"
         element={
-          <ProtectedRoute>
+          <OnboardingProtectedRoute>
             <AdminMarquee />
-          </ProtectedRoute>
+          </OnboardingProtectedRoute>
         }
       />
     </Routes>

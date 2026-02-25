@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import axios from 'axios'
 import { AuthContext } from '../context/AuthContext'
 import LanguageToggle from '../components/LanguageToggle'
+import BackButton from '../components/BackButton'
 import { API_URL } from '../config'
 
 const EditProfile = () => {
@@ -26,6 +27,7 @@ const EditProfile = () => {
   })
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
+  const [messageType, setMessageType] = useState('') // 'success' | 'error'
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   useEffect(() => {
@@ -59,12 +61,14 @@ const EditProfile = () => {
       await axios.put(`${API_URL}/auth/profile`, formData)
       const response = await axios.get(`${API_URL}/auth/profile`)
       updateUser(response.data)
-      setMessage('Profile updated successfully!')
+      setMessage(t('profileUpdated'))
+      setMessageType('success')
       setTimeout(() => {
         navigate('/dashboard')
       }, 1500)
     } catch (err) {
-      setMessage('Failed to update profile')
+      setMessage(t('profileUpdateFailed'))
+      setMessageType('error')
       console.error('Profile update failed', err)
     } finally {
       setLoading(false)
@@ -141,15 +145,16 @@ const EditProfile = () => {
           )}
         </div>
       </nav>
+      <BackButton />
 
       <div className="max-w-2xl mx-auto p-8 mt-8">
         <div className="bg-white rounded shadow-lg border-2 border-gray-300 p-8">
           <div className="border-l-4 border-orange-500 pl-4 mb-6">
-            <h2 className="text-3xl font-bold text-gray-800">Edit Profile</h2>
+            <h2 className="text-3xl font-bold text-gray-800">{t('editProfileTitle')}</h2>
           </div>
           
           {message && (
-            <div className={`p-3 rounded mb-4 ${message.includes('success') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+            <div className={`p-3 rounded mb-4 ${messageType === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
               {message}
             </div>
           )}
@@ -182,7 +187,7 @@ const EditProfile = () => {
                     maxLength="10"
                     pattern="[0-9]{10}"
                     title="Please enter a valid 10-digit phone number"
-                    placeholder="10-digit number"
+                    placeholder={t('phonePlaceholder')}
                     className="w-full px-4 py-2 border border-gray-300 rounded-r focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
@@ -196,7 +201,7 @@ const EditProfile = () => {
                   required
                   className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
-                  <option value="">Select</option>
+                  <option value="">{t('select')}</option>
                   <option value="Male">{t('male')}</option>
                   <option value="Female">{t('female')}</option>
                   <option value="Other">{t('other')}</option>
@@ -222,7 +227,7 @@ const EditProfile = () => {
                   required
                   className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
-                  <option value="">Select</option>
+                  <option value="">{t('select')}</option>
                   <option value="Maharashtra">Maharashtra</option>
                   <option value="Delhi">Delhi</option>
                   <option value="Karnataka">Karnataka</option>
@@ -239,7 +244,7 @@ const EditProfile = () => {
                   required
                   className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
-                  <option value="">Select</option>
+                  <option value="">{t('select')}</option>
                   <option value="Urban">{t('urban')}</option>
                   <option value="Rural">{t('rural')}</option>
                 </select>
@@ -253,7 +258,7 @@ const EditProfile = () => {
                   required
                   className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
-                  <option value="">Select</option>
+                  <option value="">{t('select')}</option>
                   <option value="General">{t('general')}</option>
                   <option value="OBC">OBC</option>
                   <option value="SC">SC</option>
@@ -294,7 +299,7 @@ const EditProfile = () => {
                   required
                   className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
-                  <option value="">Select</option>
+                  <option value="">{t('select')}</option>
                   <option value="yes">{t('yes')}</option>
                   <option value="no">{t('no')}</option>
                 </select>
@@ -308,12 +313,12 @@ const EditProfile = () => {
                   required
                   className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
-                  <option value="">Select</option>
-                  <option value="Below 10th">Below 10th</option>
-                  <option value="10th">10th</option>
-                  <option value="12th">12th</option>
-                  <option value="Graduate">Graduate</option>
-                  <option value="Post-Graduate">Post-Graduate</option>
+                  <option value="">{t('select')}</option>
+                  <option value="Below 10th">{t('below10th')}</option>
+                  <option value="10th">{t('tenth')}</option>
+                  <option value="12th">{t('twelfth')}</option>
+                  <option value="Graduate">{t('graduate')}</option>
+                  <option value="Post-Graduate">{t('postGraduate')}</option>
                 </select>
               </div>
               <div>
@@ -336,7 +341,7 @@ const EditProfile = () => {
               disabled={loading}
               className="w-full bg-orange-500 text-white py-3 rounded hover:bg-orange-600 transition font-semibold disabled:bg-gray-400 border-2 border-orange-600"
             >
-              {loading ? 'Updating...' : 'Update Profile'}
+              {loading ? t('updating') : t('updateProfile')}
             </button>
           </form>
         </div>

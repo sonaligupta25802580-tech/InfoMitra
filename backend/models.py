@@ -2,7 +2,7 @@ from pymongo import MongoClient
 from config import Config
 
 client = MongoClient(Config.MONGO_URI)
-db = client.get_database("infomitra")
+db = client.get_database()
 
 users_collection = db.users
 schemes_collection = db.schemes
@@ -14,7 +14,8 @@ def create_user(email, phone, password_hash, profile=None, role='user'):
         'phone': phone,
         'password_hash': password_hash,
         'profile': profile or {},
-        'role': role
+        'role': role,
+        'onboarded': False
     }
     result = users_collection.insert_one(user)
     return result.inserted_id
@@ -33,7 +34,7 @@ def update_user_profile(user_id, profile):
     from bson import ObjectId
     users_collection.update_one(
         {'_id': ObjectId(user_id)},
-        {'$set': {'profile': profile}}
+        {'$set': {'profile': profile, 'onboarded': True}}
     )
 
 def create_scheme(scheme_data):

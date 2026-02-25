@@ -85,7 +85,8 @@ def get_profile():
         'email': user.get('email'),
         'phone': user.get('phone'),
         'profile': user.get('profile', {}),
-        'role': user.get('role', 'user')
+        'role': user.get('role', 'user'),
+        'onboarded': user.get('onboarded', False)
     }), 200
 
 @auth_bp.route('/profile', methods=['PUT'])

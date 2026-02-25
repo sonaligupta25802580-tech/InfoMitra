@@ -42,7 +42,7 @@ const Home = () => {
               />
               <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 tracking-tight">InfoMitra</h1>
             </div>
-            
+
             <div className="hidden md:flex items-center gap-4">
               <LanguageToggle />
               <button
@@ -79,13 +79,13 @@ const Home = () => {
                 <LanguageToggle />
                 <button
                   onClick={() => navigate('/login')}
-                  className="bg-white text-blue-600 px-4 py-2 rounded font-semibold hover:bg-gray-100 transition border-2 border-blue-600 w-full"
+                  className="bg-white text-blue-600 px-4 py-2 rounded font-semibold hover:bg-gray-100 transition border-2 border-blue-600 w-full text-left"
                 >
                   {t('login')}
                 </button>
                 <button
                   onClick={() => navigate('/signup')}
-                  className="bg-orange-500 text-white px-4 py-2 rounded font-semibold hover:bg-orange-600 transition border-2 border-orange-600 w-full"
+                  className="bg-orange-500 text-white px-4 py-2 rounded font-semibold hover:bg-orange-600 transition border-2 border-orange-600 w-full text-left"
                 >
                   {t('signup')}
                 </button>
@@ -97,196 +97,135 @@ const Home = () => {
 
       <MarqueeBanner />
 
-      {/* Hero Carousel Section */}
-      <div className="relative w-full overflow-hidden" style={{ height: 'clamp(350px, 60vh, 600px)' }}>
-        {/* Carousel Images */}
+      {/* Hero Section */}
+      <div className="relative w-full overflow-hidden" style={{ height: '420px' }}>
         {heroImages.map((img, index) => (
           <div
             key={index}
-            className="absolute inset-0 w-full h-full transition-all duration-700 ease-in-out"
-            style={{
-              opacity: currentSlide === index ? 1 : 0,
-              transform: currentSlide === index ? 'scale(1)' : 'scale(1.08)',
-              zIndex: currentSlide === index ? 1 : 0,
-            }}
+            className={`absolute inset-0 transition-opacity duration-700 ${index === currentSlide ? 'opacity-100' : 'opacity-0'}`}
           >
-            <img
-              src={img}
-              alt={`Hero ${index + 1}`}
-              className="w-full h-full object-cover"
-            />
-            {/* Dark overlay for text readability */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/35 to-black/10" />
+            <img src={img} alt={`Hero ${index + 1}`} className="w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-black bg-opacity-50" />
           </div>
         ))}
 
-        {/* Hero Text Overlay */}
-        <div className="absolute inset-0 z-10 flex items-center justify-center">
-          <div className="text-center px-4 max-w-4xl mx-auto">
-            <h2
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-3 sm:mb-5 drop-shadow-lg"
-              style={{ textShadow: '0 2px 16px rgba(0,0,0,0.5)' }}
-            >
-              {t('welcome')}
-            </h2>
-            <p
-              className="text-lg sm:text-xl md:text-2xl text-orange-200 font-semibold mb-4 sm:mb-6 drop-shadow-md"
-              style={{ textShadow: '0 1px 8px rgba(0,0,0,0.4)' }}
-            >
-              {t('tagline')}
-            </p>
-            <p
-              className="text-sm sm:text-base md:text-lg text-gray-200 max-w-2xl mx-auto mb-6 sm:mb-8 leading-relaxed"
-              style={{ textShadow: '0 1px 6px rgba(0,0,0,0.3)' }}
-            >
-              Discover government schemes tailored to your profile. Get personalized recommendations based on your age, location, education, and more.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-              <button
-                onClick={() => navigate('/signup')}
-                className="bg-orange-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-bold hover:bg-orange-600 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5 border-2 border-orange-400 w-full sm:w-auto"
-              >
-                Get Started
-              </button>
-              <button
-                onClick={() => navigate('/login')}
-                className="bg-white/95 text-blue-700 px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-bold hover:bg-white transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5 border-2 border-white/60 backdrop-blur-sm w-full sm:w-auto"
-              >
-                Sign In
-              </button>
-            </div>
-          </div>
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-10">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-3 drop-shadow-lg">
+            {t('welcome')}
+          </h2>
+          <p className="text-lg sm:text-xl text-orange-300 font-semibold mb-4 drop-shadow">
+            {t('tagline')}
+          </p>
+          <p className="text-sm sm:text-base text-white max-w-2xl mb-6 opacity-90">
+            {t('heroDescription')}
+          </p>
+          
         </div>
 
-        {/* Navigation Dots */}
-        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 flex gap-2.5">
+        {/* Slide indicators */}
+        <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-10">
           {heroImages.map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`rounded-full transition-all duration-500 border-2 border-white/70 shadow-md ${
-                currentSlide === index
-                  ? 'w-8 h-3 bg-orange-400'
-                  : 'w-3 h-3 bg-white/50 hover:bg-white/80'
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
+              className={`w-3 h-3 rounded-full transition-all ${index === currentSlide ? 'bg-orange-400 w-6' : 'bg-white bg-opacity-60'}`}
             />
           ))}
         </div>
-
-        {/* Navigation Arrows */}
-        <button
-          onClick={() => goToSlide((currentSlide - 1 + heroImages.length) % heroImages.length)}
-          className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black/30 hover:bg-black/50 backdrop-blur-sm text-white flex items-center justify-center transition-all duration-300 border border-white/20"
-          aria-label="Previous slide"
-        >
-          <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
-          </svg>
-        </button>
-        <button
-          onClick={() => goToSlide((currentSlide + 1) % heroImages.length)}
-          className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black/30 hover:bg-black/50 backdrop-blur-sm text-white flex items-center justify-center transition-all duration-300 border border-white/20"
-          aria-label="Next slide"
-        >
-          <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-          </svg>
-        </button>
       </div>
 
+      {/* Features Section */}
       <div className="max-w-7xl mx-auto px-4 py-12 sm:py-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
-          <div className="bg-white rounded border-2 border-blue-200 p-6 sm:p-8 text-center shadow-md hover:shadow-lg transition">
-            <div className="text-4xl sm:text-5xl md:text-6xl mb-3 sm:mb-4">🎯</div>
-            <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-3">Personalized</h3>
-            <p className="text-gray-600">
-              Get scheme recommendations based on your unique profile and eligibility criteria
-            </p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
+          <div className="bg-white rounded-lg border-2 border-gray-200 p-6 sm:p-8 text-center shadow hover:shadow-md transition">
+            <div className="flex justify-center mb-4">
+              <svg className="w-16 h-16 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+            </div>
+            <h4 className="text-lg sm:text-xl font-bold text-orange-600 mb-2">{t('featurePersonalized')}</h4>
+            <p className="text-sm text-gray-700">{t('featurePersonalizedDesc')}</p>
           </div>
 
-          <div className="bg-white rounded border-2 border-green-200 p-6 sm:p-8 text-center shadow-md hover:shadow-lg transition">
-            <div className="text-4xl sm:text-5xl md:text-6xl mb-3 sm:mb-4">🌐</div>
-            <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-3">Multilingual</h3>
-            <p className="text-gray-600">
-              Access information in English, Hindi, and Marathi for better understanding
-            </p>
+          <div className="bg-white rounded-lg border-2 border-gray-200 p-6 sm:p-8 text-center shadow hover:shadow-md transition">
+            <div className="flex justify-center mb-4">
+              <svg className="w-16 h-16 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
+              </svg>
+            </div>
+            <h4 className="text-lg sm:text-xl font-bold text-blue-600 mb-2">{t('featureMultilingual')}</h4>
+            <p className="text-sm text-gray-700">{t('featureMultilingualDesc')}</p>
           </div>
 
-          <div className="bg-white rounded border-2 border-orange-200 p-6 sm:p-8 text-center shadow-md hover:shadow-lg transition sm:col-span-2 md:col-span-1">
-            <div className="text-4xl sm:text-5xl md:text-6xl mb-3 sm:mb-4">✓</div>
-            <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-3">Easy Access</h3>
-            <p className="text-gray-600">
-              Simple interface to explore and apply for government schemes with direct links
-            </p>
+          <div className="bg-white rounded-lg border-2 border-gray-200 p-6 sm:p-8 text-center shadow hover:shadow-md transition">
+            <div className="flex justify-center mb-4">
+              <svg className="w-16 h-16 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h4 className="text-lg sm:text-xl font-bold text-green-600 mb-2">{t('featureEasyAccess')}</h4>
+            <p className="text-sm text-gray-700">{t('featureEasyAccessDesc')}</p>
           </div>
         </div>
+      </div>
 
-        <div className="mt-12 sm:mt-16 md:mt-20">
-          <div className="text-center mb-8 sm:mb-12">
-            <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-4">
-              Easy steps to apply
-            </h3>
-            <h4 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800">
-              for Government Schemes
-            </h4>
+      {/* Steps Section */}
+      <div className="bg-white border-t-2 border-b-2 border-gray-200 py-12 sm:py-16">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-10">
+            <h3 className="text-2xl sm:text-3xl font-bold text-gray-800">{t('stepsTitle')}</h3>
+            <p className="text-orange-500 font-semibold text-lg mt-1">{t('stepsSubtitle')}</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-center max-w-5xl mx-auto">
-            <div className="bg-gradient-to-br from-green-50 to-blue-50 rounded-lg border border-gray-200 p-6 text-center shadow hover:shadow-md transition">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-0">
+            <div className="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-lg border border-gray-200 p-6 text-center shadow hover:shadow-md transition w-full md:w-64">
               <div className="flex justify-center mb-4">
-                <svg className="w-16 h-16 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                <svg className="w-16 h-16 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
               </div>
-              <h4 className="text-lg sm:text-xl font-bold text-green-700 mb-2">Enter Details</h4>
-              <p className="text-sm text-gray-700">
-                Start by entering your <span className="font-bold">basic details!</span>
-              </p>
+              <h4 className="text-lg sm:text-xl font-bold text-orange-700 mb-2">{t('stepEnterDetails')}</h4>
+              <p className="text-sm text-gray-700">{t('stepEnterDetailsDesc')}</p>
             </div>
 
-            <div className="hidden md:flex justify-center">
+            <div className="hidden md:flex justify-center px-4">
               <svg className="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </div>
 
-            <div className="bg-gradient-to-br from-green-50 to-blue-50 rounded-lg border border-gray-200 p-6 text-center shadow hover:shadow-md transition">
+            <div className="bg-gradient-to-br from-green-50 to-blue-50 rounded-lg border border-gray-200 p-6 text-center shadow hover:shadow-md transition w-full md:w-64">
               <div className="flex justify-center mb-4">
                 <svg className="w-16 h-16 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
               </div>
-              <h4 className="text-lg sm:text-xl font-bold text-green-700 mb-2">Search</h4>
-              <p className="text-sm text-gray-700">
-                Our search engine will <span className="font-bold">find the relevant schemes!</span>
-              </p>
+              <h4 className="text-lg sm:text-xl font-bold text-green-700 mb-2">{t('stepSearch')}</h4>
+              <p className="text-sm text-gray-700">{t('stepSearchDesc')}</p>
             </div>
 
-            <div className="hidden md:flex justify-center">
+            <div className="hidden md:flex justify-center px-4">
               <svg className="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </div>
 
-            <div className="bg-gradient-to-br from-green-50 to-blue-50 rounded-lg border border-gray-200 p-6 text-center shadow hover:shadow-md transition">
+            <div className="bg-gradient-to-br from-green-50 to-blue-50 rounded-lg border border-gray-200 p-6 text-center shadow hover:shadow-md transition w-full md:w-64">
               <div className="flex justify-center mb-4">
                 <svg className="w-16 h-16 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
                 </svg>
               </div>
-              <h4 className="text-lg sm:text-xl font-bold text-green-700 mb-2">Select & Apply</h4>
-              <p className="text-sm text-gray-700">
-                <span className="font-bold">Select and apply</span> for the best suited scheme
-              </p>
+              <h4 className="text-lg sm:text-xl font-bold text-green-700 mb-2">{t('stepSelectApply')}</h4>
+              <p className="text-sm text-gray-700">{t('stepSelectApplyDesc')}</p>
             </div>
           </div>
         </div>
       </div>
 
-      <footer className="bg-white border-t-4 border-orange-500 mt-12 sm:mt-16 md:mt-20 py-6 sm:py-8 shadow-inner">
+      <footer className="bg-white border-t-4 border-orange-500 mt-0 py-6 sm:py-8 shadow-inner">
         <div className="max-w-7xl mx-auto px-4 text-center text-gray-600">
-          <p className="font-semibold text-sm sm:text-base">&copy; 2024 InfoMitra. Empowering citizens with information.</p>
+          <p className="font-semibold text-sm sm:text-base">{t('footerText')}</p>
         </div>
       </footer>
     </div>

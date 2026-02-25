@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const PWAUpdateNotification = () => {
+  const { t } = useTranslation()
   const [showUpdate, setShowUpdate] = useState(false)
   const [updateSW, setUpdateSW] = useState(null)
 
@@ -49,22 +51,22 @@ const PWAUpdateNotification = () => {
             </svg>
           </div>
           <div className="flex-1">
-            <h3 className="font-semibold text-lg mb-1">Update Available!</h3>
+            <h3 className="font-semibold text-lg mb-1">{t('updateAvailable')}</h3>
             <p className="text-sm text-orange-50 mb-3">
-              A new version of InfoMitra is ready. Update now for the latest features and improvements.
+              {t('updateDesc')}
             </p>
             <div className="flex gap-2">
               <button
                 onClick={handleUpdate}
                 className="flex-1 bg-white text-orange-600 px-4 py-2 rounded-md font-medium hover:bg-orange-50 transition-colors duration-200 shadow-sm"
               >
-                Update Now
+                {t('updateNow')}
               </button>
               <button
                 onClick={handleDismiss}
                 className="px-4 py-2 rounded-md font-medium hover:bg-orange-700 transition-colors duration-200"
               >
-                Later
+                {t('later')}
               </button>
             </div>
           </div>

@@ -103,7 +103,7 @@ const Onboarding = () => {
                   name="email"
                   value={formData.email || ''}
                   onChange={handleChange}
-                  placeholder="Optional"
+                  placeholder={t('optional')}
                   className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               )}
@@ -124,7 +124,7 @@ const Onboarding = () => {
                   maxLength="10"
                   pattern="[0-9]{10}"
                   title="Please enter a valid 10-digit phone number"
-                  placeholder="10-digit number"
+                  placeholder={t('phonePlaceholder')}
                   className={`w-full px-4 py-2 border border-gray-300 rounded-r focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${user?.phone ? 'bg-gray-100 text-gray-500 cursor-not-allowed' : ''}`}
                 />
               </div>
@@ -138,7 +138,7 @@ const Onboarding = () => {
                 required
                 className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
-                <option value="">Select</option>
+                <option value="">{t('select')}</option>
                 <option value="Male">{t('male')}</option>
                 <option value="Female">{t('female')}</option>
                 <option value="Other">{t('other')}</option>
@@ -164,7 +164,7 @@ const Onboarding = () => {
                 required
                 className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
-                <option value="">Select</option>
+                <option value="">{t('select')}</option>
                 <option value="Maharashtra">Maharashtra</option>
                 <option value="Delhi">Delhi</option>
                 <option value="Karnataka">Karnataka</option>
@@ -181,7 +181,7 @@ const Onboarding = () => {
                 required
                 className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
-                <option value="">Select</option>
+                <option value="">{t('select')}</option>
                 <option value="Urban">{t('urban')}</option>
                 <option value="Rural">{t('rural')}</option>
               </select>
@@ -195,7 +195,7 @@ const Onboarding = () => {
                 required
                 className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
-                <option value="">Select</option>
+                <option value="">{t('select')}</option>
                 <option value="General">{t('general')}</option>
                 <option value="OBC">OBC</option>
                 <option value="SC">SC</option>
@@ -236,7 +236,7 @@ const Onboarding = () => {
                 required
                 className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
-                <option value="">Select</option>
+                <option value="">{t('select')}</option>
                 <option value="yes">{t('yes')}</option>
                 <option value="no">{t('no')}</option>
               </select>
@@ -250,12 +250,12 @@ const Onboarding = () => {
                 required
                 className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
-                <option value="">Select</option>
-                <option value="Below 10th">Below 10th</option>
-                <option value="10th">10th</option>
-                <option value="12th">12th</option>
-                <option value="Graduate">Graduate</option>
-                <option value="Post-Graduate">Post-Graduate</option>
+                <option value="">{t('select')}</option>
+                <option value="Below 10th">{t('below10th')}</option>
+                <option value="10th">{t('tenth')}</option>
+                <option value="12th">{t('twelfth')}</option>
+                <option value="Graduate">{t('graduate')}</option>
+                <option value="Post-Graduate">{t('postGraduate')}</option>
               </select>
             </div>
             <div>

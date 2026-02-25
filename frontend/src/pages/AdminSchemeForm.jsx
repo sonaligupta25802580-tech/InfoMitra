@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import axios from 'axios'
 import LanguageToggle from '../components/LanguageToggle'
+import BackButton from '../components/BackButton'
 import { API_URL } from '../config'
 
 const AdminSchemeForm = () => {
@@ -32,6 +33,7 @@ const AdminSchemeForm = () => {
 
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
+  const [messageType, setMessageType] = useState('') // 'success' | 'error'
 
   useEffect(() => {
     if (isEdit) {
@@ -115,14 +117,16 @@ const AdminSchemeForm = () => {
     try {
       if (isEdit) {
         await axios.put(`${API_URL}/admin/schemes/${id}`, payload)
-        setMessage('Scheme updated successfully!')
+        setMessage(t('schemeUpdated'))
       } else {
         await axios.post(`${API_URL}/admin/schemes`, payload)
-        setMessage('Scheme created successfully!')
+        setMessage(t('schemeCreated'))
       }
+      setMessageType('success')
       setTimeout(() => navigate('/admin/schemes'), 1500)
     } catch (error) {
-      setMessage('Failed to save scheme')
+      setMessage(t('failedSaveScheme'))
+      setMessageType('error')
       console.error('Failed to save scheme', error)
     } finally {
       setLoading(false)
@@ -139,7 +143,7 @@ const AdminSchemeForm = () => {
               alt="InfoMitra Logo"
               className="w-12 h-12 rounded-full object-cover shadow-md border-2 border-orange-400"
             />
-            <h1 className="text-2xl font-bold text-gray-800">InfoMitra Admin Panel</h1>
+            <h1 className="text-2xl font-bold text-gray-800">{t('adminPanelTitle')}</h1>
           </div>
           <div className="flex items-center gap-4">
             <LanguageToggle />
@@ -147,30 +151,31 @@ const AdminSchemeForm = () => {
               onClick={() => navigate('/admin/schemes')}
               className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition border border-blue-700"
             >
-              Back to Schemes
+              {t('backToSchemes')}
             </button>
           </div>
         </div>
       </nav>
+      <BackButton />
 
       <div className="max-w-4xl mx-auto p-8">
         <div className="bg-white rounded shadow-md border border-gray-300 p-8">
           <div className="border-l-4 border-orange-500 pl-4 mb-6">
             <h2 className="text-3xl font-bold text-gray-800">
-              {isEdit ? 'Edit Scheme' : 'Create New Scheme'}
+              {isEdit ? t('editScheme') : t('createNewScheme')}
             </h2>
-            <p className="text-gray-600 mt-1">Fill in the scheme details below</p>
+            <p className="text-gray-600 mt-1">{t('fillSchemeDetails')}</p>
           </div>
 
           {message && (
-            <div className={`p-3 rounded mb-4 border ${message.includes('success') ? 'bg-green-50 text-green-800 border-green-300' : 'bg-red-50 text-red-800 border-red-300'}`}>
+            <div className={`p-3 rounded mb-4 border ${messageType === 'success' ? 'bg-green-50 text-green-800 border-green-300' : 'bg-red-50 text-red-800 border-red-300'}`}>
               {message}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="bg-blue-50 p-4 rounded border border-blue-200">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">Scheme Name (Multilingual)</h3>
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('schemeNameMultilingual')}</h3>
               <div className="space-y-3">
                 <input
                   type="text"
@@ -202,7 +207,7 @@ const AdminSchemeForm = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Category *</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t('categoryLabel')}</label>
                 <input
                   type="text"
                   name="category"
@@ -213,7 +218,7 @@ const AdminSchemeForm = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Tags (comma-separated)</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t('tagsLabel')}</label>
                 <input
                   type="text"
                   name="tags"
@@ -226,7 +231,7 @@ const AdminSchemeForm = () => {
             </div>
 
             <div className="bg-blue-50 p-4 rounded border border-blue-200">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">Objective (Multilingual)</h3>
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('objectiveMultilingual')}</h3>
               <div className="space-y-3">
                 <textarea
                   name="objective.en"
@@ -256,7 +261,7 @@ const AdminSchemeForm = () => {
             </div>
 
             <div className="bg-blue-50 p-4 rounded border border-blue-200">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">Eligibility (Multilingual)</h3>
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('eligibilityMultilingual')}</h3>
               <div className="space-y-3">
                 <textarea
                   name="eligibility.en"
@@ -286,7 +291,7 @@ const AdminSchemeForm = () => {
             </div>
 
             <div className="bg-blue-50 p-4 rounded border border-blue-200">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">Benefits (Multilingual)</h3>
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('benefitsMultilingual')}</h3>
               <div className="space-y-3">
                 <textarea
                   name="benefits.en"
@@ -316,7 +321,7 @@ const AdminSchemeForm = () => {
             </div>
 
             <div className="bg-blue-50 p-4 rounded border border-blue-200">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">Documents (comma-separated)</h3>
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('documentsLabel')}</h3>
               <div className="space-y-3">
                 <input
                   type="text"
@@ -346,7 +351,7 @@ const AdminSchemeForm = () => {
             </div>
 
             <div className="bg-blue-50 p-4 rounded border border-blue-200">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">Apply Process (Multilingual)</h3>
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('applyProcessMultilingual')}</h3>
               <div className="space-y-3">
                 <textarea
                   name="apply_process.en"
@@ -376,7 +381,7 @@ const AdminSchemeForm = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Official Link</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t('officialLinkLabel')}</label>
               <input
                 type="url"
                 name="official_link"
@@ -388,7 +393,7 @@ const AdminSchemeForm = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Min Age</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t('minAge')}</label>
                 <input
                   type="number"
                   name="min_age"
@@ -398,7 +403,7 @@ const AdminSchemeForm = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Max Age</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t('maxAge')}</label>
                 <input
                   type="number"
                   name="max_age"
@@ -410,7 +415,7 @@ const AdminSchemeForm = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">States (comma-separated)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t('statesLabel')}</label>
               <input
                 type="text"
                 name="states"
@@ -422,7 +427,7 @@ const AdminSchemeForm = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Eligible Categories (comma-separated)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t('eligibleCategoriesLabel')}</label>
               <input
                 type="text"
                 name="eligible_categories"
@@ -434,7 +439,7 @@ const AdminSchemeForm = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Disability Supported (comma-separated)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t('disabilitySupportedLabel')}</label>
               <input
                 type="text"
                 name="disability_supported"
@@ -446,21 +451,21 @@ const AdminSchemeForm = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Student Required</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t('studentRequiredLabel')}</label>
               <select
                 name="student_required"
                 value={formData.student_required}
                 onChange={handleChange}
                 className="w-full px-4 py-2 bg-white text-gray-800 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
-                <option value="">Not Specified</option>
-                <option value="true">Yes</option>
-                <option value="false">No</option>
+                <option value="">{t('notSpecified')}</option>
+                <option value="true">{t('yes')}</option>
+                <option value="false">{t('no')}</option>
               </select>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Education Required (comma-separated)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t('educationRequiredLabel')}</label>
               <input
                 type="text"
                 name="education_required"
@@ -476,7 +481,7 @@ const AdminSchemeForm = () => {
               disabled={loading}
               className="w-full bg-green-600 text-white py-3 rounded hover:bg-green-700 transition font-semibold disabled:bg-gray-400 border border-green-700"
             >
-              {loading ? 'Saving...' : isEdit ? 'Update Scheme' : 'Create Scheme'}
+              {loading ? t('saving') : isEdit ? t('updateScheme') : t('createScheme')}
             </button>
           </form>
         </div>

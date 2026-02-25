@@ -40,7 +40,7 @@ const Login = () => {
       login(response.data.access_token)
       navigate('/dashboard')
     } catch (err) {
-      setError(err.response?.data?.error || 'Login failed')
+      setError(err.response?.data?.error || t('loginFailed'))
     }
   }
 
@@ -81,7 +81,7 @@ const Login = () => {
               value={formData.identifier}
               onChange={handleChange}
               required
-              placeholder="10-digit phone or email"
+              placeholder={t('phonePlaceholder')}
               className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
@@ -104,7 +104,7 @@ const Login = () => {
           </button>
         </form>
         <p className="text-center mt-4 text-sm text-gray-600">
-          Don't have an account?{' '}
+          {t('noAccount')}{' '}
           <Link to="/signup" className="text-orange-500 hover:underline font-semibold">
             {t('signup')}
           </Link>

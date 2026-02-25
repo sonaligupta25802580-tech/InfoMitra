@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import axios from 'axios'
+import { useTranslation } from 'react-i18next'
 import { API_URL } from '../config'
 
 /* ─── Injected CSS ───────────────────────────────────────────────────────────── */
@@ -97,24 +98,6 @@ const CHATBOT_STYLES = `
   }
 `
 
-/* ─── Constants ──────────────────────────────────────────────────────────────── */
-const WELCOME_MSG = `👋 Hello! I'm **InfoMitra Assistant**.
-
-I can help you:
-• Discover government schemes you're eligible for
-• Search schemes by category (Education, Agriculture, Housing…)
-• Explain benefits, required documents & how to apply
-
-What would you like to know?`
-
-const QUICK_PROMPTS = [
-  'Show all schemes',
-  'Education schemes',
-  'Schemes for SC category',
-  'Schemes for women',
-  'Disability schemes',
-]
-
 /* ─── Text Renderer (supports **bold** and newlines) ─────────────────────────── */
 function RenderText({ text }) {
   return (
@@ -159,8 +142,18 @@ function BotAvatar({ size = 26 }) {
 
 /* ─── Main Component ─────────────────────────────────────────────────────────── */
 export default function FloatingChatbot() {
+  const { t } = useTranslation()
+
+  const QUICK_PROMPTS = [
+    t('chatbotShowAll'),
+    t('chatbotEducation'),
+    t('chatbotSC'),
+    t('chatbotWomen'),
+    t('chatbotDisability'),
+  ]
+
   const [isOpen, setIsOpen]       = useState(false)
-  const [messages, setMessages]   = useState([{ role: 'model', text: WELCOME_MSG }])
+  const [messages, setMessages]   = useState(() => [{ role: 'model', text: t('chatbotWelcome') }])
   const [input, setInput]         = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
@@ -218,7 +211,7 @@ export default function FloatingChatbot() {
 
       setMessages(prev => [...prev, { role: 'model', text: res.data.response }])
     } catch (err) {
-      const errMsg = err.response?.data?.error || 'Sorry, something went wrong. Please try again.'
+      const errMsg = err.response?.data?.error || t('chatbotError')
       setMessages(prev => [...prev, { role: 'model', text: `⚠️ ${errMsg}` }])
     } finally {
       setIsLoading(false)
@@ -298,7 +291,7 @@ export default function FloatingChatbot() {
                   width: '6px', height: '6px', borderRadius: '50%',
                   background: '#22c55e', boxShadow: '0 0 6px #22c55e',
                 }} />
-                <span style={{ color: '#9ca3af', fontSize: '11px' }}>Online · Scheme Expert</span>
+                <span style={{ color: '#9ca3af', fontSize: '11px' }}>{t('chatbotOnlineStatus')}</span>
               </div>
             </div>
 
@@ -420,7 +413,7 @@ export default function FloatingChatbot() {
               onChange={e => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
               onInput={handleTextareaInput}
-              placeholder="Ask about schemes… (Enter to send)"
+              placeholder={t('chatbotPlaceholder')}
               rows={1}
               disabled={isLoading}
             />

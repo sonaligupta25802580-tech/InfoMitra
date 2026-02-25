@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import axios from 'axios'
 import { AuthContext } from '../context/AuthContext'
 import LanguageToggle from '../components/LanguageToggle'
+import BackButton from '../components/BackButton'
 import { API_URL } from '../config'
 
 const AdminMarquee = () => {
@@ -13,6 +14,7 @@ const AdminMarquee = () => {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState('')
+  const [messageType, setMessageType] = useState('') // 'success' | 'error'
   const [settings, setSettings] = useState({
     custom_message: '',
     show_new_schemes: true,
@@ -55,11 +57,13 @@ const AdminMarquee = () => {
     setMessage('')
     try {
       await axios.put(`${API_URL}/admin/marquee`, settings)
-      setMessage('Settings saved successfully!')
+      setMessage(t('settingsSaved'))
+      setMessageType('success')
       setTimeout(() => setMessage(''), 3000)
     } catch (error) {
       console.error('Failed to save marquee settings', error)
-      setMessage('Failed to save settings. Please try again.')
+      setMessage(t('failedSaveSettings'))
+      setMessageType('error')
     } finally {
       setSaving(false)
     }
@@ -80,7 +84,7 @@ const AdminMarquee = () => {
               alt="InfoMitra Logo"
               className="w-12 h-12 rounded-full object-cover shadow-md border-2 border-orange-400"
             />
-            <h1 className="text-2xl font-bold text-gray-800">InfoMitra Admin</h1>
+            <h1 className="text-2xl font-bold text-gray-800">{t('adminPanelTitle')}</h1>
           </div>
           <div className="flex items-center gap-4">
             <LanguageToggle />
@@ -88,7 +92,7 @@ const AdminMarquee = () => {
               onClick={() => navigate('/admin')}
               className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition border border-gray-700"
             >
-              ← Back to Admin
+              {t('backToAdmin')}
             </button>
             <button
               onClick={handleLogout}
@@ -99,11 +103,12 @@ const AdminMarquee = () => {
           </div>
         </div>
       </nav>
+      <BackButton />
 
       <div className="max-w-4xl mx-auto p-8">
         <div className="bg-white border-l-4 border-orange-500 p-6 mb-8 shadow">
-          <h2 className="text-3xl font-bold text-gray-800">Marquee Banner Settings</h2>
-          <p className="text-gray-600 mt-2">Configure the scrolling announcement banner displayed on the homepage and dashboard</p>
+          <h2 className="text-3xl font-bold text-gray-800">{t('marqueeBannerSettings')}</h2>
+          <p className="text-gray-600 mt-2">{t('marqueeBannerDesc')}</p>
         </div>
 
         {loading ? (
@@ -112,7 +117,7 @@ const AdminMarquee = () => {
           <div className="bg-white rounded shadow-lg border-2 border-gray-200 p-8">
             {message && (
               <div className={`mb-6 p-4 rounded border-2 ${
-                message.includes('success') 
+                messageType === 'success'
                   ? 'bg-green-50 border-green-300 text-green-800' 
                   : 'bg-red-50 border-red-300 text-red-800'
               }`}>
@@ -124,8 +129,8 @@ const AdminMarquee = () => {
             <div className="mb-8 p-6 bg-gray-50 rounded-lg border border-gray-200">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-lg font-bold text-gray-800 mb-1">Marquee Active</h3>
-                  <p className="text-sm text-gray-600">Enable or disable the marquee banner completely</p>
+                  <h3 className="text-lg font-bold text-gray-800 mb-1">{t('marqueeActive')}</h3>
+                  <p className="text-sm text-gray-600">{t('marqueeActiveDesc')}</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
@@ -142,10 +147,10 @@ const AdminMarquee = () => {
             {/* Custom Message */}
             <div className="mb-8">
               <label className="block text-lg font-bold text-gray-800 mb-2">
-                Custom Message
+                {t('customMessage')}
               </label>
               <p className="text-sm text-gray-600 mb-3">
-                Enter a custom announcement message to display in the marquee banner
+                {t('customMessageDesc')}
               </p>
               <textarea
                 value={settings.custom_message}
@@ -155,7 +160,7 @@ const AdminMarquee = () => {
                 className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none resize-none text-gray-800"
               />
               <p className="text-xs text-gray-500 mt-2">
-                Leave empty to show only new schemes (if enabled below)
+                {t('customMessageHint')}
               </p>
             </div>
 
@@ -163,8 +168,8 @@ const AdminMarquee = () => {
             <div className="mb-8 p-6 bg-gray-50 rounded-lg border border-gray-200">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-lg font-bold text-gray-800 mb-1">Show New Schemes</h3>
-                  <p className="text-sm text-gray-600">Display the 5 most recently added schemes in the marquee</p>
+                  <h3 className="text-lg font-bold text-gray-800 mb-1">{t('showNewSchemes')}</h3>
+                  <p className="text-sm text-gray-600">{t('showNewSchemesDesc')}</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
@@ -180,12 +185,12 @@ const AdminMarquee = () => {
 
             {/* Preview Section */}
             <div className="mb-8">
-              <h3 className="text-lg font-bold text-gray-800 mb-3">Preview</h3>
+              <h3 className="text-lg font-bold text-gray-800 mb-3">{t('preview')}</h3>
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 bg-gray-100">
                 {!settings.is_active ? (
-                  <p className="text-gray-500 text-center italic">Marquee is currently disabled</p>
+                  <p className="text-gray-500 text-center italic">{t('marqueeDisabled')}</p>
                 ) : !settings.custom_message && !settings.show_new_schemes ? (
-                  <p className="text-gray-500 text-center italic">No content to display - add a message or enable new schemes</p>
+                  <p className="text-gray-500 text-center italic">{t('noMarqueeContent')}</p>
                 ) : (
                   <div className="bg-gradient-to-r from-blue-900 to-blue-800 text-white px-4 py-3 rounded overflow-hidden">
                     <div className="flex items-center gap-4 text-sm">
@@ -200,8 +205,8 @@ const AdminMarquee = () => {
                       )}
                       {settings.show_new_schemes && (
                         <span className="flex items-center gap-2">
-                          <span className="bg-yellow-400 text-gray-900 text-xs font-bold px-2 py-0.5 rounded">NEW</span>
-                          <span>Latest Schemes: [Scheme names will appear here]</span>
+                          <span className="bg-yellow-400 text-gray-900 text-xs font-bold px-2 py-0.5 rounded">{t('newBadge')}</span>
+                          <span>{t('latestSchemes')}</span>
                         </span>
                       )}
                     </div>
@@ -216,14 +221,14 @@ const AdminMarquee = () => {
                 onClick={() => navigate('/admin')}
                 className="px-6 py-3 bg-gray-200 text-gray-800 rounded-lg font-semibold hover:bg-gray-300 transition border-2 border-gray-300"
               >
-                Cancel
+                {t('cancel')}
               </button>
               <button
                 onClick={handleSave}
                 disabled={saving}
                 className="px-8 py-3 bg-orange-500 text-white rounded-lg font-bold hover:bg-orange-600 transition border-2 border-orange-600 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {saving ? 'Saving...' : 'Save Settings'}
+                {saving ? t('saving') : t('saveSettings')}
               </button>
             </div>
           </div>
