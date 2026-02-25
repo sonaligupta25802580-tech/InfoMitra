@@ -2,7 +2,7 @@ from pymongo import MongoClient
 from config import Config
 
 client = MongoClient(Config.MONGO_URI)
-db = client.get_database()
+db = client.get_database("infomitra")
 
 users_collection = db.users
 schemes_collection = db.schemes
